@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% block content %}
+<style>
+    form{
+        width: 30%;
+        padding: 20px 20px 20px 20px;
+        height: auto;
+        margin: auto;
+        box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+        margin-top: 20px;
+        margin-bottom: 20px;
+
+    }
+    @media (max-width: 1000px){
+      form{
+        width: 70%;
+        padding: 20px 20px 20px 20px;
+        height: auto;
+        margin: auto;
+        box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+        margin-top: 20px;
+        margin-bottom: 20px;
+  
+    }
+     }
+   @media (max-width: 700px){
+    form{
+      width: 80%;
+      padding: 20px 20px 20px 20px;
+      height: auto;
+      margin: auto;
+      box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+      margin-top: 20px;
+      margin-bottom: 20px;
+
+  }
+   }
+</style>
+<form method = 'POST'>
+{% csrf_token %}
+<h3>Login to your account</h3>
+<br>
+    <div class="form-group">
+        <label for="exampleInputEmail1">Username</label>
+        <input type="text" class="form-control" id="exampleInputUsername" aria-describedby="emailHelp" placeholder="Enter username" name ='username'>
+      </div>
+
+      <br>
+      <div class="form-group">
+        <label for="exampleInputPassword1">Password</label>
+        <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password" name ='password'>
+      </div>
+
+      <br>
+      <input type = 'submit' value = 'Login' class = 'btn btn-primary'>
+      <p>Don't have an account yet?</p>
+      <a href = "{% url 'registration' %}"><p><strong>Signup</strong></p></a>
+</form>
+{% endblock %}

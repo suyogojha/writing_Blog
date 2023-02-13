@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block content %}
+<br><br>
+<div class = "container" >
+    <div class = 'row'>
+       
+        <div class = 'col-12' style = 'display: flex; align-items: center; justify-content: space-around; width: auto' >
+            <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-tags-fill" viewBox="0 0 16 16">
+                <path d="M2 2a1 1 0 0 1 1-1h4.586a1 1 0 0 1 .707.293l7 7a1 1 0 0 1 0 1.414l-4.586 4.586a1 1 0 0 1-1.414 0l-7-7A1 1 0 0 1 2 6.586V2zm3.5 4a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z"/>
+                <path d="M1.293 7.793A1 1 0 0 1 1 7.086V2a1 1 0 0 0-1 1v4.586a1 1 0 0 0 .293.707l7 7a1 1 0 0 0 1.414 0l.043-.043-7.457-7.457z"/>
+              </svg>
+            <h3 style = 'margin-left: 20px'> <strong>{{tag.title}}</strong>  </h3>
+        </div>
+        
+    </div>
+    <!-- <div class = 'row'>
+        <h3> </h3>
+    </div> -->
+    <br><br>
+    <div class = 'row' >
+        {% comment %} {% for post in tag.post_set.all %}
+       
+       
+        {% endfor %} {% endcomment %}
+
+
+
+
+        <div class="card-group">
+            {% for post in tag.post_set.all %}
+            <div class = 'col-12 col-sm-12 col-md-6 col-lg-4'>
+            <div class="card" style = "margin-right: 20px">
+            <a href = "{% url 'detail' post.slug %}" style="color: black; text-decoration: none">
+              <img src="{{post.imageUrl}}" class="card-img-top" alt="...">
+              <div class="card-body">
+                <small class="text-muted">{{post.tag.title}}</small>
+                <h5 class="card-title"><strong>{{post.title}}</strong></h5>
+                {% comment %} <p class="card-text">{{post.body|safe|truncatechars:'150'}}</p> {% endcomment %}
+                {% comment %} <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p> {% endcomment %}
+              </div>
+            
+            </div>
+        </a>
+    </div>
+       
+        
+           {% endfor %}
+           
+          </div>
+
+
+    </div>
+</div>
+{% endblock %}

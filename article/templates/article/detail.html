@@ -1,0 +1,174 @@
+{% extends 'base.html' %}
+{% block content %}
+<style>
+    
+    .col-4{
+        display: flex !important; 
+        justify-content: space-between !important;
+        align-items: center !important;
+        flex-direction: column;
+    }
+    .col-lg-8{
+        box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+        
+    }
+
+    .recent{
+        width: auto;
+        height: auto;
+    }
+
+    .recentlist{
+        width: 100%;
+        height: auto;
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        flex-wrap: wrap;
+    }
+
+    #card{
+        margin-bottom: 20px !important;
+    }
+
+</style>
+
+  <!-- Page content-->
+  <div class="container mt-5">
+    <div class="row "> 
+        <div class="col-lg-12">
+            <!-- Post content-->
+            <article>
+                <!-- Post header-->
+                <header class="mb-4">
+                    <!-- Post title-->
+                    <h1 class="fw-bolder mb-1">{{post.title}}</h1>
+                    <!-- Post meta content-->
+                    <!-- <div class="text-muted fst-italic mb-2">Posted on {{post.created}} <strong>Modified:</strong> {{post.modified}}</div> -->
+
+
+
+                    <a href = "{% url 'profile' post.writer.id %}" style = 'text-decoration: none'>
+                    <div class="card-footer p-4 pt-0 bg-transparent border-top-0">
+                        <div class="d-flex align-items-end justify-content-between">
+                            <div class="d-flex align-items-center">
+                                <img class="rounded-circle me-3"  alt="..." src = "{{post.writer.pictureUrl}}" style = " width: 10%; height: 10%" />
+                                <div class="big">
+                                    <div class="fw-bold">{{post.writer.name}}</div>
+                                    <div class="text-muted">{{post.created}} &middot; 6 min read</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+
+
+
+
+                    <!-- Post categories-->
+                    <a class="badge bg-secondary text-decoration-none link-light" href="#!">{{post.tag.title}}</a>
+                    <!-- <button class="btn btn-danger" href="#!" id = 'followBtn' data-postid= ' {{post.id}} ' >FOLLOW</button> -->
+                </header>
+                <!-- Preview image figure-->
+                <figure class="mb-4"><img class="img-fluid rounded" src="{{post.imageUrl}}" alt="..." /></figure>
+                <!-- Post content-->
+                <section class="mb-5" style ='text-align: justify'>
+                    <p class="fs-5 mb-4">{{post.body|safe}}.</p>
+                    
+                </section>
+            </article>
+            <!-- Comments section-->
+            <section class="mb-5">
+                <div class="card bg-light">
+                    <div class="card-body">
+                        <!-- Comment form-->
+                        <form class="mb-4" method = 'POST'>
+                            {% csrf_token %}
+                            <!-- <textarea class="form-control" rows="3" placeholder="Join the discussion and leave a comment!"></textarea> -->
+                        
+                            {{form}}
+                            <br>
+                        <input type = 'submit' class = 'btn btn-primary' value="Add Comment" style = 'width: 100%'>
+                        </form>
+                        <!-- Comment with nested comments-->
+                        {% for comment in post.comment_set.all %}
+                        <div class="d-flex mb-4">
+                            <!-- Parent comment-->
+                            
+                            <div class="flex-shrink-0" style = 'width: 50px; height: 50px'><img class="rounded-circle" style = 'width: 100%; height: 100%' src="{{request.user.profile.picture.url}}" alt="..." /></div>
+                            <div class="ms-3">
+                                <div class="fw-bold">{{request.user.profile.name}}</div>
+                                {{comment.body}}
+                            
+                            </div>
+                            
+                        </div>
+                        {% endfor %}
+                        <!-- Single comment-->
+                        <!-- <div class="d-flex">
+                            <div class="flex-shrink-0"><img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." /></div>
+                            <div class="ms-3">
+                                <div class="fw-bold">Commenter Name</div>
+                                When I look at the universe and all the ways the universe wants to kill us, I find it hard to reconcile that with statements of beneficence.
+                            </div>
+                        </div> -->
+                    </div>
+                </div>
+            </section>
+        </div>
+        
+      
+
+
+       
+    </div>
+
+    <div class="row" style="flex-wrap:wrap" style="border: 2px solid black">
+
+        <div class="recent">
+            <h3>Recent Posts</h3>
+            <div class="recentlist">
+
+                {% for post in posts %}
+
+            
+        
+                <a href = "{% url 'detail' post.slug %}" style = 'text-decoration: none; color: black'>
+                <div class="card" style="width: 15rem;" id="card">
+                    <img src=" {{post.imageUrl}} " class="card-img-top" alt="...">
+                    <div class="card-body">
+                      <h5 class="card-title"> <strong>{{post.title}}</strong> </h5>
+                      <p class="card-text">{{post.body | truncatechars:"100" | safe }}</p>
+                      
+                    </div>
+                  </div>
+                </a>
+                
+                  <br>
+                  
+    
+    
+            {% endfor %}
+
+            </div>
+        </div>
+        
+       
+
+
+    </div>
+
+
+</div>
+<script>
+    let textarea = document.getElementsByTagName('textarea')
+    let label = document.getElementsByTagName('label')
+for (let i=0; i<textarea.length; i++){
+    textarea[i].classList.add('form-control')
+    textarea[i].placeholder = 'Join the discussion and leave a comment!'
+    textarea[i].rows = 5
+    label[i].style.display = 'none'
+    
+}
+</script>
+{% endblock %}

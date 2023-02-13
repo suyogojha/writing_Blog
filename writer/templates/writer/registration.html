@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% block content %}
+<style>
+    form{
+        width: 30%;
+        padding: 20px 20px 20px 20px;
+        height: auto;
+        margin: auto;
+        box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+        margin-top: 20px;
+        margin-bottom: 20px;
+
+    }
+    small p{
+        color: red;
+        font-weight: bold;
+    }
+
+    @media (max-width: 1000px){
+        form{
+          width: 70%;
+          padding: 20px 20px 20px 20px;
+          height: auto;
+          margin: auto;
+          box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+          margin-top: 20px;
+          margin-bottom: 20px;
+    
+      }
+       }
+     @media (max-width: 700px){
+      form{
+        width: 80%;
+        padding: 20px 20px 20px 20px;
+        height: auto;
+        margin: auto;
+        box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+        margin-top: 20px;
+        margin-bottom: 20px;
+  
+    }
+     }
+</style>
+<form method="POST">
+    <h3>Join us now</h3><br>
+    {% csrf_token %}
+    {% for field in form %}
+    <div class="form-group">
+        <label for="exampleInputEmail1">{{field.label}}</label>
+        {{field}}
+      </div>
+      {% for error in field.errors %}
+      <small><p>{{error}}</p></small>
+      {% endfor %}
+      <br>
+    {% endfor %}
+    <input type = 'submit' class = 'btn btn-primary' value="SIGNUP">
+    <p>Already have an account?</p>
+    <a href = " {% url 'signin' %} " ><p><strong>Login</strong></p></a>
+</form>
+<script>
+    let input = document.getElementsByTagName('input')
+    for(let i = 0; i<input.length; i++){
+        input[i].classList.add('form-control')
+    }
+</script>
+{% endblock %}

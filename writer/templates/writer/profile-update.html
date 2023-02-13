@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+   
+    #container{
+        width: 50%;
+        box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+        height: auto;
+        padding: 30px 20px 20px 20px;
+        border-radius: 30px;
+        margin-bottom: 20px;
+    }
+    #container h3{
+        text-align: center;
+    }
+    @media (max-width: 1000px){
+        #container{
+          width: 70%;
+          padding: 20px 20px 20px 20px;
+          height: auto;
+          margin: auto;
+          box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+          margin-top: 20px;
+          margin-bottom: 20px;
+    
+      }
+       }
+     @media (max-width: 700px){
+      #container{
+        width: 80%;
+        padding: 20px 20px 20px 20px;
+        height: auto;
+        margin: auto;
+        box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+        margin-top: 20px;
+        margin-bottom: 20px;
+  
+    }
+     }
+     
+</style>
+
+<br><br>
+<div class = 'container' id = 'container'>
+
+<h3><strong>Update Your Profile</strong></h3>
+<form method="POST" enctype="multipart/form-data">
+{% csrf_token %}
+{% for field in form %}
+    <div class="form mb-3">
+        <label for="floatingInput"><strong>{{field.label}}</strong></label>
+        {{field}}
+        
+      </div>
+      <!-- <br> -->
+      {% endfor %}
+      
+      <!-- <div class="form-floating">
+        <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
+        <label for="floatingPassword">Password</label>
+      </div> -->
+
+      <input type = 'submit' class = 'btn btn-primary' style = 'width: 100%' value = 'Update Profile'>
+
+    </form>
+
+</div>
+
+
+
+<script>
+
+    let inputs = document.getElementsByTagName('input')
+    let textarea = document.getElementById('id_bio')
+    let selectTag = document.getElementById('id_tag')
+    for(let i = 0; i < inputs.length; i++){
+        inputs[i].classList.add('form-control')
+    }
+    textarea.classList.add('form-control')
+    textarea.setAttribute('rows', 7)
+    
+    selectTag.classList.add('form-select')
+</script>
+
+{% endblock %}

@@ -1,0 +1,136 @@
+{% extends 'base.html' %}
+{% block content %}
+<style>
+    .active{
+        background-color: blue;
+        color: white;
+    }
+    .btn-custom{
+        border-radius: 20px;
+        height: 40px;
+        width: auto;
+        border: 2px solid lightgray;
+        color: grey;
+    }
+    .btn-custom:hover{
+        background-color: lightgray;
+        color: black;
+    }
+
+    #col{
+      margin-bottom: 30px !important;
+    }
+  
+</style>
+
+
+<header class="bg-dark py-5">
+    <div class="container px-5">
+        <div class="row gx-5 align-items-center justify-content-center">
+            <div class="col-lg-8 col-xl-7 col-xxl-6">
+                <div class="my-5 text-center text-xl-start">
+                    <!-- <h1 class="display-5 fw-bolder text-white mb-2">A Bootstrap 5 template for modern businesses</h1> -->
+                    <h1 class="display-5 fw-bolder text-white mb-2">A Platform designed for modern content creators</h1>
+                    <p class="lead fw-normal text-white-50 mb-4">Quickly write and customize compelling and mind blowing articles on Freelance writing, the world’s most popular content creating toolkit!</p>
+                    <div class="d-grid gap-3 d-sm-flex justify-content-sm-center justify-content-xl-start">
+                        <a class="btn btn-primary btn-lg px-4 me-sm-3" href="{% url 'signin' %}">Get Started</a>
+                        <a class="btn btn-outline-light btn-lg px-4" href="#allblogs">Learn More</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-5 col-xxl-6 d-none d-xl-block text-center"><img class="img-fluid rounded-3 my-5" src=" img/happy2.jpg " alt="..." /></div>
+        </div>
+    </div>
+</header>
+
+ 
+
+  <!-- Blog preview section-->
+  <section class="py-5" id = 'allblogs'>
+    <div class="container px-5 my-5">
+        <div class="row gx-5 justify-content-center">
+            <div class="col-lg-8 col-xl-6">
+                <div class="text-center">
+                    <h2 class="fw-bolder">Top Articles For You</h2>
+                    <p class="lead fw-normal text-muted mb-5">Here are articles from our topmost creators. Browse through to find the article you love most.</p>
+                </div>
+            </div>
+        </div>
+        <div class = 'container' style = 'display: flex; justify-content: center'>
+            {% for tag in tags %}
+            <a href  = " {% url 'tag' tag.slug %} ">
+            <button type="button" class="btn btn-custom" style = 'margin-right: 10px;'>{{tag.title}}</button></a>
+            {% endfor %}
+        </div>
+        <br>
+        <div class="row justify-content-center">
+         
+            <div class="card-group">
+                {% for post in posts %}
+                <div class = 'col-12 col-sm-12 col-md-6 col-lg-4' id="col">
+                <div class="card" style = "margin-right: 20px">
+                <a href = "{% url 'detail' post.slug %}" style="color: black; text-decoration: none">
+                  <img src="{{post.imageUrl}}" class="card-img-top" alt="...">
+                  <div class="card-body">
+                    <small class="text-muted">{{post.tag.title}}</small>
+                    <h5 class="card-title"><strong>{{post.title}}</strong></h5>
+
+                    <p>{{post.body|safe|truncatechars:"100"}}</p>
+                    {% comment %} <p class="card-text">{{post.body|safe|truncatechars:'150'}}</p> {% endcomment %}
+                    {% comment %} <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p> {% endcomment %}
+                  </div>
+                
+                </div>
+            </a>
+        </div>
+            
+               {% endfor %}
+               
+              </div>
+
+            <nav aria-label="Page navigation example" style = 'align-self: center' style="margin-top: 100px">
+                <ul class="pagination" style = 'justify-content:center;margin-top: 50px'>
+
+                    {% if posts.has_previous %}
+                  <li class="page-item">
+                    <a class="page-link" href="?page={{posts.previous_page_number}}" aria-label="Previous">
+                      <span aria-hidden="true">&laquo;</span>
+                    </a>
+                  </li>
+                  {% else %}
+                  <li class="page-item">
+                    <a class="page-link" href="?page=1" aria-label="Previous">
+                      <span aria-hidden="true">&laquo;</span>
+                    </a>
+                  </li>
+                  {% endif %}
+
+                  {% for page in paginator.page_range %}
+                  {% if page == posts.number %}
+                  <li class="page-item"><a class="page-link active" href="?page={{page}}"> {{page}} </a></li>
+                  {% else %}
+                  <li class="page-item"><a class="page-link" href="?page={{page}}"> {{page}} </a></li>
+                  {% endif %}
+                  {% endfor %}
+                  {% if posts.has_next %}
+                  <li class="page-item">
+                    <a class="page-link" href="?page={{posts.next_page_number}}" aria-label="Next">
+                      <span aria-hidden="true">&raquo;</span>
+                    </a>
+                  </li>
+                  {% else %}
+                  <li class="page-item">
+                    <a class="page-link" href="?page={{paginator.num_pages}}" aria-label="Next">
+                      <span aria-hidden="true">&raquo;</span>
+                    </a>
+                  </li>
+                  {% endif %}
+                </ul>
+              </nav>
+            
+        
+
+    </div> 
+</section>
+
+{% endblock %}

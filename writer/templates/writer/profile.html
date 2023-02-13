@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% block content %}
+<style>
+    .placeholderContainer{
+        width: 300px;
+        height: 550px;
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        flex-direction: column;
+        background-color: white;
+        box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    }
+
+    .placeholderImg{
+        width: 200px;
+        height: 200px;
+        border-radius: 50%;
+        border: 2px solid black;
+       
+    }
+    .placeholderImg img{
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+    }
+
+</style>
+
+<div class = 'container' style = 'margin-top: 20px' >
+    <div class = 'row justify-content-center'>
+        <div class = 'col-lg-4'>
+            <div class='placeholderContainer'>
+                <div class = 'placeholderImg'>
+                    <img src=' {{profile.pictureUrl}} '>
+                </div>
+                <h4 style = 'margin-top: 20px; font-weight: bold'><strong>{{profile.name}}</strong></h4>
+                <h4 style =  'text-align:center'> {{profile.profession}} </h4>
+                <div class ='socials'></div>
+                <!-- <p>100 Followers</p> -->
+            </div>
+        </div>
+
+        <div class = 'col-lg-8'>
+            <h3><strong>About me</strong></h3>
+            <p class ='bio'>
+                {{profile.bio}}
+            </p><br><br>
+            <h3><strong>My Articles</strong></h3>
+            <div class = 'row justify-content-center'>
+                {% for post in profile.post_set.all %}
+                <div class = 'col-12 col-sm-12 col-md-4 col-lg-4' style="margin-bottom: 10px">
+                    
+
+                    <div class="card" style="margin-bottom: 10px">
+                        <img src="{{post.imageUrl}}" class="card-img-top" alt="...">
+                        <div class="card-body">
+                          <h5 class="card-title"><strong>{{post.title}}</strong></h5>
+                          <p class="card-text">{{post.body|safe|truncatechars:'100'}}</p>
+                          <a href="#" class="btn btn-primary">Read More</a>
+                        </div>
+                      </div>
+
+                    
+                </div>
+            
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
